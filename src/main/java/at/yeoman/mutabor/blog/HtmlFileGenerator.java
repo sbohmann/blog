@@ -6,9 +6,7 @@ import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
@@ -85,9 +83,17 @@ class HtmlFileGenerator
             Map.of("content", renderer.render(document)));
     
         File outputFile = createOutputFile();
-        
-        System.out.println("Would write to output file " + outputFile.getAbsolutePath() + ":");
-        System.out.println(result);
+    
+        try
+        {
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8);
+            writer.write(result);
+            writer.close();
+        }
+        catch (IOException exception)
+        {
+            throw new RuntimeException(exception);
+        }
     }
     
     private String readFile(File markdownFile)
