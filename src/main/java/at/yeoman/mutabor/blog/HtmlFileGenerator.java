@@ -18,41 +18,30 @@ class HtmlFileGenerator
     private File markdownFile;
     private List<String> relativePath;
     
-    HtmlFileGenerator setTemplate(String template)
+    HtmlFileGenerator(String template, File outputDirectory, File markdownFile, List<String> relativePath)
     {
         this.template = template;
-        return this;
-    }
-    
-    HtmlFileGenerator setOutputDirectory(File outputDirectory)
-    {
         this.outputDirectory = outputDirectory;
-        return this;
-    }
-    
-    HtmlFileGenerator setMarkdownFile(File markdownFile)
-    {
         this.markdownFile = markdownFile;
-        return this;
-    }
-    
-    HtmlFileGenerator setRelativePath(List<String> relativePath)
-    {
         this.relativePath = relativePath;
-        return this;
     }
     
     private File createOutputFile()
     {
-        String suffix = ".md";
         String name = markdownFile.getName();
+        String outputFileName = getMarkdownFileBaseName(name) + ".html";
+        return new File(createOutputSubdirectory(), outputFileName);
+    }
+    
+    private String getMarkdownFileBaseName(String name)
+    {
+        String suffix = ".md";
         if (!name.endsWith(suffix))
         {
             throw new IllegalArgumentException(
                 "Not a markdown file: [" + markdownFile.getAbsolutePath() + "]");
         }
-        return new File(createOutputSubdirectory(),
-            name.substring(0, name.length() - suffix.length()) + ".html");
+        return name.substring(0, name.length() - suffix.length());
     }
     
     private File createOutputSubdirectory()
@@ -60,15 +49,20 @@ class HtmlFileGenerator
         File result = outputDirectory;
         for (String subdirectory : relativePath)
         {
-            result = new File(result, subdirectory);
-            
-            if (!result.isDirectory())
-            {
-                throw new IllegalArgumentException(
-                    "Sub-path of output directory [" + outputDirectory + "]" +
-                        " is not a directory: [" + result.getAbsolutePath() + "]" +
-                        " for input file " + markdownFile);
-            }
+            result = createSubdirectory(result, subdirectory);
+        }
+        return result;
+    }
+    
+    private File createSubdirectory(File result, String subdirectory)
+    {
+        result = new File(result, subdirectory);
+        if (!result.isDirectory())
+        {
+            throw new IllegalArgumentException(
+                "Sub-path of output directory [" + outputDirectory + "]" +
+                    " is not a directory: [" + result.getAbsolutePath() + "]" +
+                    " for input file [" + markdownFile.getAbsolutePath() + "]");
         }
         return result;
     }
@@ -81,12 +75,14 @@ class HtmlFileGenerator
         
         String result = SimpleTemplateEngine.replaceVariables(template,
             Map.of("content", renderer.render(document)));
-    
+        
         File outputFile = createOutputFile();
-    
+        
         try
         {
-            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8);
+            OutputStreamWriter writer = new OutputStreamWriter(
+                new FileOutputStream(outputFile),
+                StandardCharsets.UTF_8);
             writer.write(result);
             writer.close();
         }
@@ -100,7 +96,9 @@ class HtmlFileGenerator
     {
         try
         {
-            return new String(new FileInputStream(markdownFile).readAllBytes(), StandardCharsets.UTF_8);
+            return new String(
+                new FileInputStream(markdownFile).readAllBytes(),
+                StandardCharsets.UTF_8);
         }
         catch (IOException exception)
         {

@@ -1,8 +1,8 @@
 
 package at.yeoman.mutabor.blog;
-
-import java.io.File;
-import java.util.List;
+    
+    import java.io.File;
+    import java.util.List;
 
 class FileProcessor
 {
@@ -22,11 +22,7 @@ class FileProcessor
     
     void processFile(File markdownFile, List<String> relativePath)
     {
-        new HtmlFileGenerator()
-            .setTemplate(template)
-            .setOutputDirectory(outputDirectory)
-            .setMarkdownFile(markdownFile)
-            .setRelativePath(relativePath)
-            .generateHtmlFile();
+        new HtmlFileGenerator(template, outputDirectory, markdownFile, relativePath).
+            generateHtmlFile();
     }
 }
