@@ -38,7 +38,7 @@ class BlogGenerator
     private void run()
     {
         RecursiveGenerator.generateBlog(sourceDirectory,
-            new Configuration(template, outputDirectory));
+            new FileProcessor(template, outputDirectory));
     }
     
     private File getDirectory(String role, String path)

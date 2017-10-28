@@ -13,15 +13,15 @@ class RecursiveGenerator
     private final File sourceDirectory;
     private final FileProcessor fileProcessor;
     
-    private RecursiveGenerator(File sourceDirectory, Configuration configuration)
+    private RecursiveGenerator(File sourceDirectory, FileProcessor fileProcessor)
     {
         this.sourceDirectory = sourceDirectory;
-        fileProcessor = new FileProcessor(configuration);
+        this.fileProcessor = fileProcessor;
     }
     
-    static void generateBlog(File sourceDirectory, Configuration configuration)
+    static void generateBlog(File sourceDirectory, FileProcessor fileProcessor)
     {
-        new RecursiveGenerator(sourceDirectory, configuration).generateBlog();
+        new RecursiveGenerator(sourceDirectory, fileProcessor).generateBlog();
     }
     
     private void generateBlog()

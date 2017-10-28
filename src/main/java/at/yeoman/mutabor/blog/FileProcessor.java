@@ -9,15 +9,15 @@ class FileProcessor
     private final String template;
     private final File outputDirectory;
     
-    FileProcessor(Configuration configuration)
+    FileProcessor(String template, File outputDirectory)
     {
-        this.template = configuration.template;
-        this.outputDirectory = configuration.outputDirectory;
-    
         if (!outputDirectory.isDirectory())
         {
             throw new IllegalArgumentException("Not a directory: [" + outputDirectory + "]");
         }
+        
+        this.template = template;
+        this.outputDirectory = outputDirectory;
     }
     
     void processFile(File markdownFile, List<String> relativePath)

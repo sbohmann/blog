@@ -1,6 +1,8 @@
 # A Modern Interpretation of OOP
 
-## Objects are about behavior
+## The Basics
+
+### Objects are about behavior
 * OOP is about objects
 * Objects are named in a terrifyingly misleading way
 * Objects are about behavior
@@ -8,9 +10,9 @@
 * Data structures like structs, POJOs / POCOs, or named tuples are not objects
 * Abstract data structures like lists, hash maps, persistent vectors, observables, or other monads have behavior but are semantically still not considered objects
 
-## Objects Are Generalizations of Functions
+### Objects Are Generalizations of Functions
 * Objects have one responsibility
-* One responsibility may correspond to more than one function for offering different call signatures
+* One responsibility may correspond to more than one non-private method for offering different call signatures
 * Stateful objects are created for a single call
 * Stateless objects are created for mutliple calls
 * Stateful entity objects are created for mutliple calls, which often have effects on the object's state
@@ -18,21 +20,22 @@
 * Objects often delegate work to other objects
 * Configuring objects with other objects often creates better cohesion than configuring them with data
 
-## Objects Allow Internal Organization
+### Objects Allow Internal Organization
+* Method objects are the most simple example of objects
 * A Method Object is simply a function written as a class with a single static non-private method
-* The method first creates an instance, configured with the arguments and set up with the initial state, and then delegates to a private, non-static method
-* Because the configuration and state are visible to all methods, it's now easy to split the code of the original function into several methods, which can vastly improve readability and maintaintability
+* That method first creates an instance, configured with the arguments and set up with the initial state, and then delegates to a private, non-static method
+* Because the configuration and state are visible to all methods, it is now easy to split the code of the original function into several methods, which can vastly improve readability and maintaintability
 * This was the first mention of a class, which is not accidental
 * Objects are not about classes, inheritance, or runtime polymorphism
 * Classes, inheritance, and runtime polymorphism are features of programming languages
-* Objects are a more abstract concept that does not rely on any of these features
+* Objects are a higher-level abstract concept that does not rely on any of these features
 * Some degree of support helps, though - some language are called "object oriented" for a reason
 * LISP is flexible enough to allow OOP without explicit support
 * Classic JavaScript allows OOP without supporting classes
 * A lot of C code is written in an OOP fashion, which is not pretty
 * A lot of C++ code is written in an OOP fashion, which is not much prettier
 
-## Readability and Maintainability
+### Readability and Maintainability
 * Bad OOP support in a language and bad tool support often lead to long methods because creating new methods is a lot of distracting extra work
 * A good average method length is in between 2 and 3 lines of code
 * A good upper limit for class length is about 300 lines, which is actually a lot
@@ -50,7 +53,7 @@
 * A kitchen sink full of data with methods around it is called structured programming with classes
 * Structured programming with classes is not inherently bad but this article is about OOP, so the kitchen sink full of data with methods around it will not be mentioned again
 
-## Classes, Inheritance, and Runtime Polymorphism
+### Classes, Inheritance, and Runtime Polymorphism
 * Languages with OOP support are either dynamically typed, or offer dynamic dispatch
 * OOP is not about dynamic dispatch
 * Language support for dynamic dispatch through virtual methods can help, though
